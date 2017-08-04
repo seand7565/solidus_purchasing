@@ -1,0 +1,8 @@
+<h1>New Purchase Order</h1>
+
+<%= form_for :purchase_order, :url => url_for(:controller => 'purchase_orders', :action => 'create') do |f| %>
+
+Vendor: <%= f.collection_select :vendor_id, Spree::Vendor.all, :id, :name %><br />
+Number: <%= f.text_field :number, :value => rand(8 ** 8) %>
+<br /><%= f.submit %>
+<% end %>

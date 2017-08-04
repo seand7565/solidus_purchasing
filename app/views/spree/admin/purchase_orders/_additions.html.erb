@@ -1,0 +1,6 @@
+<% @purchase_order.po_additions.each do |addition| %>
+<tr><td><%= addition.category.name %></td><td><%= addition.text %></td><td><%= addition.quantity %></td><td><%= Spree::Money.new(addition.cost_price) %></td><td><%= Spree::Money.new(addition.quantity * addition.cost_price) %></td><td><%= link_to "Edit", edit_admin_po_addition_path(addition.id) %></td><td><%= link_to "Delete", admin_po_addition_path(addition.id), method: :delete, data: { confirm: 'Are you certain you want to delete this?' } %>
+</td></tr>
+<% end %>
+
+</table>

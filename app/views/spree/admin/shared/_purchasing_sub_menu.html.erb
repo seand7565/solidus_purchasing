@@ -1,0 +1,11 @@
+<ul class="admin-subnav" data-hook="admin_purchasing_sub_tabs">
+  <% if can? :admin, Spree::Product %>
+    <%= tab :purchase_orders %>
+  <% end %>
+  <% if can? :admin, Spree::OptionType %>
+    <%= tab :categories %>
+  <% end %>
+  <% if can? :admin, Spree::Property %>
+    <%= tab :vendors %>
+  <% end %>
+</ul>

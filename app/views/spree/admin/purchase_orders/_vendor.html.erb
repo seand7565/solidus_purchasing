@@ -1,0 +1,33 @@
+<div style="margin:20px;float:left;width:40%">
+<table><tr><td>Vendor</td></tr>
+<tr><td>
+<%= @vendor.name %><br />
+<% unless @vendor.firstname.empty? %>
+<%= @vendor.firstname %>
+<% if @vendor.lastname.empty? %>
+<br />
+<% end %>
+<% end %>
+<% unless @vendor.lastname.empty? %>
+<%= @vendor.lastname %><br />
+<% end %>
+<% unless @vendor.address1.empty? %>
+<%= @vendor.address1 %><br />
+<% end %>
+<% unless @vendor.address2.empty? %>
+<%= @vendor.address2 %><br />
+<% end %>
+<% unless @vendor.zipcode.empty? %>
+<%= @vendor.zipcode %>
+<% if @vendor.state.nil? %>
+<br />
+<% end %>
+<% end %>
+<% unless @vendor.state.nil? %>
+<%= @vendor.state.name %><br />
+<% end %>
+<% unless @vendor.country.nil? %>
+<%= @vendor.country.name %><br />
+<% end %>
+</td></tr></table>
+</div>

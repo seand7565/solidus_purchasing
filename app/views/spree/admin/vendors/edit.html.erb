@@ -1,0 +1,23 @@
+<h1>Edit Vendor</h1>
+
+<%= form_for :vendor, :url => url_for(:controller => 'vendors', :action => 'update'), :method => :put do |f| %>
+  Name*: <%= f.text_field :name %><br>
+  Shipping Line: <%= f.text_field :shipping %><br>
+  Send Email? <%= f.check_box :send_email %><br>
+  Email: <%= f.text_field :email %><br>
+  Alternative Email: <%= f.text_field :alternative_email %><br>
+  Notes: <%= f.text_area :note %><br>
+  Delivery Time (in days) <%= f.number_field :delivery_time %><br>
+  First Name: <%= f.text_field :firstname %><br>
+  Last Name: <%= f.text_field :lastname %><br>
+  Company: <%= f.text_field :company %><br>
+  Address 1: <%= f.text_field :address1 %><br>
+  Address 2: <%= f.text_field :address2 %><br>
+  City: <%= f.text_field :city %><br>
+  Zip Code: <%= f.text_field :zipcode %><br>
+  Phone: <%= f.text_field :phone %><br>
+  Alternative Phone: <%= f.text_field :alternative_phone %><br>
+  State: <%= f.select :state_id, options_for_select(Spree::State.all.map{|s|[s.name, s.id]}, @vendor.state_id), :include_blank => true %><br>
+  Country:  <%= f.select :country_id, options_for_select(Spree::Country.all.map{|s|[s.name, s.id]}, @vendor.country_id), :include_blank => true %><br>
+  <%= f.submit %>
+  <% end %>

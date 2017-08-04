@@ -1,0 +1,47 @@
+<% content_for :page_actions do %>
+<%= link_to(Spree.t("print_purchase_order"), admin_purchase_order_path(@purchase_order, :pdf), :class => 'button fa fa-print')%>
+<% unless @purchase_order.state == "Received" || @purchase_order.state == "Partial" || @purchase_order.state == "Placed" %>
+<%= form_for :purchase_orders, :url => url_for(:controller => 'purchase_orders', :action => 'update'), :method => :put do |f| %>
+<div class="hidden">
+<% if @purchase_order.state == "Pending" %>
+<% value = "Approved" %>
+<% text = "Approve" %>
+<% end %>
+<% if @purchase_order.state == "Approved" %>
+<% value = "Placed" %>
+<% text = "Place PO" %>
+<% end %>
+<%= f.text_field :state, :value => value %>
+</div>
+<%= f.submit text %>
+<% end %>
+<% end %>
+<% end %>
+
+<% content_for :page_title do %>
+   <%= Spree.t("edit_purchase_order") %>
+<% end %>
+
+<table><tr><td>
+<div style="float:right;margin:20px;">
+<h1>Purchase Order</h1>
+<table><tr><th>Date</th><th>P.O. No.</th></tr>
+<tr><td><%= @purchase_order.created_at.to_date %></td>
+<td><%= @purchase_order.number %></td></tr></table>
+</div></td></tr>
+<tr><td>
+<%= render :partial => 'vendor' %>
+<%= render :partial => 'store' %>
+</td></tr>
+<% unless @vendor.note.empty? %>
+<tr><td>
+Vendor Notes: <%= @vendor.note %>
+</td></tr>
+<% end %>
+<tr><td>
+<%= render :partial => 'line_items' %>
+<%= render :partial => 'additions' %>
+</td></tr>
+</table>
+
+<%= render :partial => 'new_items' %>

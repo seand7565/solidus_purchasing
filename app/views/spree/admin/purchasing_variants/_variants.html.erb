@@ -1,0 +1,41 @@
+<H1><%= variants.sku %></H1>
+<% purchasing_info = Spree::PurchasingVariant.find_by(:variant_id => variants.id) %>
+<% purchasing_info ||= Spree::PurchasingVariant.new %>
+<div style="border-color:gray;border-style:solid;">
+<%= form_for [:admin, purchasing_info] do |f| %>
+<div style="margin:10px;">
+  <%= f.check_box :orderable %>
+  <%= f.label :orderable %>
+
+  <%= f.check_box :dropship %>
+  <%= f.label :drop_ship %><br />
+
+<div style="max-width:200px;">
+  <%= f.label :manufacturer_part_number %>
+  <%= f.text_field :manufacturer_id %>
+
+  <%= f.label :delivery_time_in_days %>
+  <%= f.number_field :delivery_time %>
+  <%= f.label :order_in_multiples %>
+  <%= f.number_field :multiples %> <br />
+
+  <%= f.label :order_minimum %>
+  <%= f.number_field :minimum %> <br />
+
+  <%= f.label :cost_price %>
+  <%= f.number_field :cost_price, :step => :any %> <br />
+
+
+
+  <%= f.label :category %>
+  <%= f.collection_select :category_id, Spree::Category.all, :id, :name, :include_blank => true %><br />
+
+  <%= f.label :vendor %>
+  <%= f.collection_select :vendor_id, Spree::Vendor.all, :id, :name, :include_blank => true %><br />
+
+  </div>
+  <%= f.hidden_field :variant_id, :value => variants.id %>
+  <%= f.submit %>
+</div>
+<% end %>
+</div>

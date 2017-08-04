@@ -1,0 +1,7 @@
+<%= form_for :addition, :url => url_for(:controller => 'po_additions', :action => 'update'), :method => :put do |f| %>
+Category: <%= f.collection_select :category_id, Spree::Category.all, :id, :name %>
+<br />Text: <%= f.text_field :text %>
+<br />Qty: <%= f.number_field :quantity %>
+<br />Cost: <%= f.number_field :cost_price, :step => :any %>
+<br /><%= f.submit %>
+<% end %>

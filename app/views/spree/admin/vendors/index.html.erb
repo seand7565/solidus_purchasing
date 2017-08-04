@@ -1,0 +1,18 @@
+<% content_for :page_actions do %>
+  <li><%= button_link_to Spree.t("new_vendor"), new_admin_vendor_path, :icon => 'icon-plus', :id => 'admin_new_vendor' %></li>
+<% end %>
+
+<% content_for :page_title do %>
+   <%= Spree.t("purchasing") %>
+<% end %>
+
+<h1>Vendors</h1>
+<table><thead><tr><th>Vendor</th><th>Edit</th><th>Delete</th></tr></thead><tbody>
+<% Spree::Vendor.all.each do |vendor| %>
+<tr><td>
+<%= vendor.name %></td><td><a href="<%= edit_admin_vendor_path(vendor.id) %>">Edit</a></td><td>
+<%= link_to "Delete", admin_vendor_path(vendor.id), method: :delete, data: { confirm: 'Are you certain you want to delete this?' } %>
+
+</td></tr>
+<% end %>
+</tbody></table>

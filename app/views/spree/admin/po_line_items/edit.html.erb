@@ -1,0 +1,7 @@
+<%= form_for :line_item, :url => url_for(:controller => 'po_line_items', :action => 'update'), :method => :put do |f| %>
+Category: <%= f.collection_select :category_id, Spree::Category.all, :id, :name %>
+<br />Line Item: <%= f.collection_select :purchasing_variant_id, Spree::PurchasingVariant.where(:vendor_id => @vendor.id), :id, :name %>
+<br />Qty: <%= f.number_field :quantity %>
+<br />Cost: <%= f.number_field :cost_price, :step => :any %>
+<br /><%= f.submit %>
+<% end %>

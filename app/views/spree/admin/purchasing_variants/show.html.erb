@@ -1,0 +1,9 @@
+<%= render :partial => 'spree/admin/shared/product_sub_menu' if !Spree.respond_to?(:solidus_version) %>
+
+<%= render :partial => 'spree/admin/shared/product_tabs', :locals => {:current => "purchasing"} %>
+
+<% unless @variants.empty? %>
+<%= render partial: 'variants', collection: @variants %>
+<% else %>
+<%= render partial: 'variants', collection: @variants_including_master %>
+<% end %>

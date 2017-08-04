@@ -1,0 +1,14 @@
+<% content_for :page_title do %>
+   <%= Spree.t("categories") %>
+<% end %>
+
+<%= form_for :categories do |f| %>
+<%= f.text_field :name %>
+<%= f.submit %>
+<% end %><br />
+<table><tr><th>Category</th><th>Delete</th></tr>
+<% Spree::Category.all.each do |category| %>
+<tr><td><%= category.name %></td><td><%= link_to "Delete", admin_category_path(category.id), method: :delete, data: { confirm: 'Are you certain you want to delete this?' } %>
+</td></tr>
+  <% end %>
+</table>

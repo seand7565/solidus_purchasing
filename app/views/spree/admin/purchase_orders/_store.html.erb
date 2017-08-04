@@ -1,0 +1,24 @@
+<div style="margin:20px;float:right;width:40%">
+<table><tr><td>Ship To</td>
+<tr><td>
+<%= @ship_to.name %><br />
+<% unless @ship_to.address1.empty? %>
+<%= @ship_to.address1 %><br />
+<% end %>
+<% unless @ship_to.address2.empty? %>
+<%= @ship_to.address2 %><br />
+<% end %>
+<% unless @ship_to.zipcode.empty? %>
+<%= @ship_to.zipcode %>
+<% if @ship_to.state.nil? %>
+<br />
+<% end %>
+<% end %>
+<% unless @ship_to.state.nil? %>
+<%= @ship_to.state.name %><br />
+<% end %>
+<% unless @ship_to.country.nil? %>
+<%= @ship_to.country.name %><br />
+<% end %>
+</td></tr></table>
+</div>

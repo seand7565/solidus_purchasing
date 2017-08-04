@@ -1,0 +1,18 @@
+<div style="float:left;width:40%;border-width:1px;border-color:gray;border-style:solid;">
+<%= form_for :po_line_item, :url => url_for(:controller => 'po_line_items', :action => 'create') do |f| %>
+Category: <%= f.collection_select :category_id, Spree::Category.all, :id, :name %><br />
+Variant: <%= f.collection_select :purchasing_variant_id, Spree::PurchasingVariant.where(:vendor_id => @vendor.id), :id, :name, {}, {:style => "width:70%"} %><br />
+Quantity: <%= f.number_field :quantity, :value => 0 %><br />
+Cost: <%= f.number_field :cost_price, :step => :any, :value => 0 %><br />
+<%= f.hidden_field :purchase_order_id, :value => params[:id] %>
+<%= f.submit %>
+<% end %><br /> <br /></div><div style="float:right;width:40%;border-width:1px;border-color:gray;border-style:solid;">
+<%= form_for :po_addition, :url => url_for(:controller => 'po_additions', :action => 'create') do |f| %>
+Category: <%= f.collection_select :category_id, Spree::Category.all, :id, :name %><br />
+Text: <%= f.text_field :text %><br />
+Quantity: <%= f.number_field :quantity, :value => 0 %><br />
+Cost: <%= f.number_field :cost_price, :step => :any, :value => 0 %><br />
+<%= f.hidden_field :purchase_order_id, :value => params[:id] %>
+<%= f.submit %>
+<% end %>
+</div>
