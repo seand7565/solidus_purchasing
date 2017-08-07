@@ -8,7 +8,13 @@ Spree::Core::Engine.routes.draw do
 
     resources :categories
 
-    resources :purchase_orders
+    resources :purchase_orders do
+      member do
+        patch :receive
+      end
+    end
+
+    get :dashboard, :to => "dashboard#index"
 
     resources :po_line_items
 

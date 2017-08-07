@@ -2,6 +2,9 @@
   <% if can? :admin, Spree::Product %>
     <%= tab :purchase_orders %>
   <% end %>
+  <% if can? :admin, Spree::Product %>
+    <%= tab :dashboard %>
+  <% end %>
   <% if can? :admin, Spree::OptionType %>
     <%= tab :categories %>
   <% end %>

@@ -1,5 +1,13 @@
-<table class="itemstable"><tr class="line_item"><th>Category</th><th>Description</th><th>Qty</th><th>Rate</th><th>Total</th><th>Edit</th><th>Delete</th></tr>
+<table class="itemstable"><tr class="line_item"><th>Category</th><th>Description</th><th>Qty</th><th>Rate</th><th>Total</th><th>Edit</th><th>Delete</th><% if @purchase_order.state == "Placed" || @purchase_order.state == "Partial" %><th>Received</th><th>Receive</th><% end %></tr>
 <% @purchase_order.po_line_items.each do |line_item| %>
 <tr><td><%= line_item.category.name %></td><td><%= line_item.purchasing_variant.name %></td><td><%= line_item.quantity %></td><td><%= Spree::Money.new(line_item.cost_price) %></td><td><%= Spree::Money.new(line_item.quantity * line_item.cost_price) %></td><td><%= link_to "Edit", edit_admin_po_line_item_path(line_item.id) %></td><td><%= link_to "Delete", admin_po_line_item_path(line_item.id), method: :delete, data: { confirm: 'Are you certain you want to delete this?' } %>
-</td></tr>
+</td><% if @purchase_order.state == "Placed" || @purchase_order.state == "Partial" %><td><%= line_item.received_amount %></td><td>
+  <%= form_for @purchase_order, :url => url_for(:action => :receive) do |f| %>
+  <%= number_field_tag :quantity %>
+  <%= check_box_tag :adjust %> Adjust Cost
+  <div class="hidden"><%= number_field_tag :line_item, line_item.id %>
+  <%= text_field_tag :newcost, line_item.cost_price %></div>
+  <%= f.submit "Receive" %>
+  <% end %>
+</td><% end %></tr>
 <% end %>

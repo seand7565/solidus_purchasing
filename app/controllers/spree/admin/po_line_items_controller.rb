@@ -22,7 +22,6 @@ module Spree
         purchase_order = Spree::PoLineItem.find(params[:id]).purchase_order
         redirect_to edit_admin_purchase_order_path(purchase_order)
       end
-
     end
   end
 end

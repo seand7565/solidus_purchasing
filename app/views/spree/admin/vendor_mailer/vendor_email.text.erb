@@ -1,9 +1,9 @@
-Hi person,
+Hi <%= @purchase_order.vendor.firstname %>,
 
-I hope you're having a great day.
+I hope you're doing well.
 
-I have attached a purchase order. Please review it and let me know if you have any questions.
+We have a new purchase order for you. Please review it and let me know if you have any questions.
 
-Thanks,
+Thanks and have a great day,
 
-Store
+<%= Spree::Store.first.name %>

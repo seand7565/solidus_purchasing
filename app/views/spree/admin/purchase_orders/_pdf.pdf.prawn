@@ -15,17 +15,20 @@ bounding_box([bounds.left, cursor], width: bounds.right) do
   image Rails.root.join(Spree::PrintInvoice::Config[:print_invoice_logo_path]), at: [bounds.left, bounds.top]
   #----------- DOCUMENT HEADER
   doc_type_settings     = { align: :right, style: :bold, size: 18 }
-  order_num_settings    = { align: :right, style: :bold, size: 9}
+  order_num_settings    = { align: :right, style: :bold, size: 18}
   completed_settings    = { align: :right, size: 9 }
 
   fill_color @document_type_fill
   fill_color @default_fill
 
   move_down 4
-  text "Purchase Order #{@purchase_order.number}", order_num_settings
+  text "Purchase Order", order_num_settings
+  header_table_data = [
+    ["Date", "Number"],["#{@purchase_order.created_at.to_date}", "#{@purchase_order.number}"]
+  ]
+  table(header_table_data, :width => 135, :cell_style => { size: 9 }, :position => :right) do
+  end
 
-  move_down 2
-  text "#{@purchase_order.created_at.to_date}", completed_settings
   #---------- ADDRESS
   vendor_address        = @purchase_order.vendor
   location_address      = @ship_to
