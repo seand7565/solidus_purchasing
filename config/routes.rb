@@ -15,6 +15,7 @@ Spree::Core::Engine.routes.draw do
     end
 
     get :dashboard, :to => "dashboard#index"
+    post :dashboard, :to => "dashboard#create"
 
     resources :po_line_items
 

@@ -4,12 +4,12 @@ module Spree
 
       def create
         Spree::PoLineItem.create(params[:po_line_item].permit(:category_id, :purchasing_variant_id, :quantity, :cost_price, :purchase_order_id))
-        redirect_to :back
+        redirect_back(fallback_location: root_path)
       end
 
       def destroy
         Spree::PoLineItem.find(params[:id]).destroy
-        redirect_to :back
+        redirect_back(fallback_location: root_path)
       end
 
       def edit

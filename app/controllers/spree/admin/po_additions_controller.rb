@@ -4,12 +4,12 @@ module Spree
 
       def create
         Spree::PoAddition.create(params[:po_addition].permit(:category_id, :text, :quantity, :cost_price, :purchase_order_id))
-        redirect_to :back
+        redirect_back(fallback_location: root_path)
       end
 
       def destroy
         Spree::PoAddition.find(params[:id]).destroy
-        redirect_to :back
+        redirect_back(fallback_location: root_path)
       end
 
       def edit

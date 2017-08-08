@@ -1,3 +1,9 @@
 <% content_for :page_title do %>
    <%= Spree.t("purchase_order_dashboard") %>
 <% end %>
+
+<% unless @vendorlist.empty? %>
+<%= render :partial => 'vendor' %>
+<% else %>
+No parts need to be ordered!
+<% end %>

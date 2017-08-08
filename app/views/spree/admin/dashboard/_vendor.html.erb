@@ -1,0 +1,36 @@
+<% @vendorlist.each do |info| %>
+<% vendor = Spree::Vendor.find(info[0]) %>
+<!-- Create vendor form -->
+<%= form_for :dashboard do |f| %>
+<table><tr><th><%= vendor.name %><%= f.hidden_field :vendor_id, :value => vendor.id %><% total = 0 %></th></tr><tr><td>
+<table><tr><th>Sku</th><th>Days on Hand</th><th>Quantity</th><th>Cost</th><th>Total</th></tr>
+<% info[1].sort.each do |part, doh| %>
+<!-- Add parts to vendor -->
+<% pv = Spree::PurchasingVariant.find_by(:variant_id => part) %>
+<tr><td><%= pv.variant.sku %></td>
+<td><%= doh %></td>
+<td>
+<% qty = pv.variant.count_on_hand %>
+<% limit = (doh / qty) * @days_on_hand_minimum_days %>
+<% purchase = (((pv.minimum || limit) / pv.multiples || 1).ceil * pv.multiples || 1) %>
+<% while limit > purchase %>
+ <% purchase += pv.multiples %>
+<% end %>
+<%= purchase %><%= f.hidden_field "variants[#{pv.variant.id}]", :value => purchase %>
+</td>
+<td><% cost = pv.cost_price || 0 %><%= Spree::Money.new(cost) %></td>
+<td><%= Spree::Money.new(cost * purchase) %></td>
+</tr>
+<% total += (cost * purchase) %>
+<% end %>
+</table></td></tr><tr><td>
+<table><tr><td>Total: <%= Spree::Money.new(total) %></td><td><div class="button ignore">Ignore</div></td><td><%= f.submit "Create PO" %></td></tr></table>
+</tr></td></table>
+<% end %>
+<% end %>
+
+<script>
+$(".ignore").click(function(){
+  $(this).parent().parent().parent().parent().parent().parent().parent().parent().hide()
+});
+</script>

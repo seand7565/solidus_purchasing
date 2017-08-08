@@ -3,6 +3,7 @@ module Spree
     belongs_to :vendor
     belongs_to :category
     belongs_to :variant
+    has_many :po_line_items
 
     def name
       unless self.manufacturer_id.empty?

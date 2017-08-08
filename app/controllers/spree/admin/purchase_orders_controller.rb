@@ -29,7 +29,7 @@ module Spree
 
       def destroy
         Spree::PurchaseOrder.find(params[:id]).destroy
-        redirect_to :back
+        redirect_back(fallback_location: root_path)
       end
 
       def update
@@ -64,7 +64,7 @@ module Spree
               if variant.update(cost_price: costaverage)
                 flash[:success] = flash_message_for(stock_movement, :successfully_created)
                 mark_received(line_item, to_add)
-                redirect_to :back
+                redirect_back(fallback_location: root_path)
 
               else
                 flash[:error] = "Could not update cost"
@@ -72,7 +72,7 @@ module Spree
             else
               flash[:success] = flash_message_for(stock_movement, :successfully_created)
               mark_received(line_item, to_add)
-              redirect_to :back
+              redirect_back(fallback_location: root_path)
             end
           else
             flash[:error] = Spree.t(:could_not_create_stock_movement)
