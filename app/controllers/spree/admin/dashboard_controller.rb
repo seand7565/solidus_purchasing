@@ -10,7 +10,7 @@ module Spree
           Spree::PurchasingVariant.where(:vendor_id => vendor.id).each do |pv|
             unless pv.po_line_items.where("received_amount < quantity").any? #Preventing items which are already on order from showing up
               sold = 0
-              Spree::LineItem.where(:variant_id => pv.variant.id).where("created_at > ?", (Date.today - days_tracking_sales)).each do |li|
+              Spree::LineItem.joins(:order).where(:variant_id => pv.variant.id).where("spree_orders.created_at > ?", (Date.today - days_tracking_sales)).where("spree_orders.state = ?", "complete").each do |li|
                 sold += li.quantity
               end
               #If you're using assemblies, we should count those sales as well
@@ -21,12 +21,12 @@ module Spree
                 unless ap.assembly.variants.empty?
                   id = ap.assembly.variants
                   id.each do |variant|
-                    Spree::LineItem.where(:variant_id => variant.id).where("created_at > ?", (Date.today - days_tracking_sales)).each do |as|
+                    Spree::LineItem.joins(:order).where(:variant_id => variant.id).where("created_at > ?", (Date.today - days_tracking_sales)).where("spree_orders.state = ?", "complete").each do |as|
                       sold += (as.quantity * ap.count)
                     end
                   end
                 else
-                  Spree::LineItem.where(:variant_id => ap.assembly.master.id).where("created_at > ?", (Date.today - days_tracking_sales)).each do |as|
+                  Spree::LineItem.joins(:order).where(:variant_id => ap.assembly.master.id).where("created_at > ?", (Date.today - days_tracking_sales)).where("spree_orders.state = ?", "complete").each do |as|
                     sold += (as.quantity * ap.count)
                   end
                 end
