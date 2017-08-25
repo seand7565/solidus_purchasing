@@ -11,7 +11,7 @@
 <td><%= doh %></td>
 <td>
 <% qty = pv.variant.count_on_hand %>
-<% limit = (doh / qty) * @days_on_hand_minimum_days %>
+<% limit = (qty / doh) * @days_on_hand_minimum_days %>
 <% purchase = (((pv.minimum || limit) / pv.multiples || 1).ceil * pv.multiples || 1) %>
 <% while limit > purchase %>
  <% purchase += pv.multiples %>
