@@ -20,14 +20,17 @@ module Spree
                 #multiple variants.
                 unless ap.assembly.variants.empty?
                   id = ap.assembly.variants
+                  id.each do |variant|
+                    Spree::LineItem.where(:variant_id => variant.id).where("created_at > ?", (Date.today - days_tracking_sales)).each do |as|
+                      sold += (as.quantity * ap.count)
+                    end
+                  end
                 else
-                  id = ap.assembly.master
-                end
-                id.each do |variant|
-                  Spree::LineItem.where(:variant_id => variant.id).where("created_at > ?", (Date.today - days_tracking_sales)).each do |as|
+                  Spree::LineItem.where(:variant_id => ap.assembly.master.id).where("created_at > ?", (Date.today - days_tracking_sales)).each do |as|
                     sold += (as.quantity * ap.count)
                   end
                 end
+
               end
               if sold > 0
                 count_on_hand = pv.variant.count_on_hand
