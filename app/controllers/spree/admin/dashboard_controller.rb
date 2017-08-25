@@ -21,12 +21,12 @@ module Spree
                 unless ap.assembly.variants.empty?
                   id = ap.assembly.variants
                   id.each do |variant|
-                    Spree::LineItem.joins(:order).where(:variant_id => variant.id).where("created_at > ?", (Date.today - days_tracking_sales)).where("spree_orders.state = ?", "complete").each do |as|
+                    Spree::LineItem.joins(:order).where(:variant_id => variant.id).where("spree_orders.created_at > ?", (Date.today - days_tracking_sales)).where("spree_orders.state = ?", "complete").each do |as|
                       sold += (as.quantity * ap.count)
                     end
                   end
                 else
-                  Spree::LineItem.joins(:order).where(:variant_id => ap.assembly.master.id).where("created_at > ?", (Date.today - days_tracking_sales)).where("spree_orders.state = ?", "complete").each do |as|
+                  Spree::LineItem.joins(:order).where(:variant_id => ap.assembly.master.id).where("spree_orders.created_at > ?", (Date.today - days_tracking_sales)).where("spree_orders.state = ?", "complete").each do |as|
                     sold += (as.quantity * ap.count)
                   end
                 end
