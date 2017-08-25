@@ -10,10 +10,12 @@ module Spree
 
       def create
         Spree::PurchasingVariant.create(params[:purchasing_variant].permit(:orderable, :dropship, :manufacturer_id, :cost_price, :delivery_time, :multiples, :minimum, :variant_id, :vendor_id, :category_id))
+        redirect_back(fallback_location: root_path)
       end
 
       def update
         Spree::PurchasingVariant.find(params[:id]).update(params[:purchasing_variant].permit(:orderable, :dropship, :manufacturer_id, :cost_price, :delivery_time, :multiples, :minimum, :variant_id, :vendor_id, :category_id))
+        redirect_back(fallback_location: root_path)
       end
 
     end

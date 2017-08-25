@@ -15,8 +15,18 @@ module Spree
               end
               #If you're using assemblies, we should count those sales as well
               Spree::AssembliesPart.where(:part_id => pv.variant.id).each do |ap|
-                Spree::LineItem.where(:variant_id => ap.assembly_id).where("created_at > ?", (Date.today - days_tracking_sales)).each do |as|
-                  sold += (as.quantity * ap.count)
+                #Because assemblies only provides a product id, I need to get the
+                #variant ID. Also, I need to account for assemblies that have
+                #multiple variants.
+                unless ap.assembly.variants.empty?
+                  id = ap.assembly.variants
+                else
+                  id = ap.assembly.master
+                end
+                id.each do |variant|
+                  Spree::LineItem.where(:variant_id => variant.id).where("created_at > ?", (Date.today - days_tracking_sales)).each do |as|
+                    sold += (as.quantity * ap.count)
+                  end
                 end
               end
               if sold > 0
