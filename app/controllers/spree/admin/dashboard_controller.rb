@@ -8,7 +8,7 @@ module Spree
         vendorlist = Hash.new { |hash, key| hash[key] = {} }
         Spree::Vendor.all.each do |vendor|
           Spree::PurchasingVariant.where(:vendor_id => vendor.id).each do |pv|
-            unless pv.po_line_items.where("received_amount < quantity").any? #Preventing items which are already on order from showing up
+            unless pv.po_line_items.where("COALESCE(received_amount, 0) < quantity").any? #Preventing items which are already on order from showing up
               sold = 0
               Spree::LineItem.joins(:order).where(:variant_id => pv.variant.id).where("spree_orders.created_at > ?", (Date.today - days_tracking_sales)).where("spree_orders.state = ?", "complete").each do |li|
                 sold += li.quantity
