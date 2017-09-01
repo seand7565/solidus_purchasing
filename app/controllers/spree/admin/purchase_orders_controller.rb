@@ -35,7 +35,7 @@ module Spree
       def update
         @purchase_order = Spree::PurchaseOrder.find(params[:id])
         @purchase_order.update(params[:purchase_orders].permit(:state))
-        if params[:purchase_orders][:state] == "Placed"
+        if params[:purchase_orders][:state] == "Placed" && @purchase_order.vendor.email?
           Spree::Admin::VendorMailer.vendor_email(@purchase_order).deliver_now
         end
         redirect_to admin_purchase_orders_path

@@ -118,7 +118,7 @@ bounding_box([bounds.left, cursor], width: bounds.right) do
         row << item.purchasing_variant.name.to_s
       end
       row << item.quantity.to_i
-      row << Spree::Money.new(item.cost_price).to_s
+      row << "$#{item.cost_price}"
       row << Spree::Money.new(item.quantity * item.cost_price).to_s
       pdf_line_items << row
     end
@@ -174,7 +174,7 @@ bounding_box([bounds.left, cursor], width: bounds.right) do
             row << item.purchasing_variant.name.to_s
           end
           row << item.quantity.to_i
-          row << Spree::Money.new(item.cost_price).to_s
+          row << "$#{item.cost_price}"
           row << Spree::Money.new(item.quantity * item.cost_price).to_s
           pdf_line_items << row
         end
