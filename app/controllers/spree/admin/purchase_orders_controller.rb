@@ -3,7 +3,7 @@ module Spree
     class PurchaseOrdersController < Spree::Admin::BaseController
 
       def index
-        @purchase_orders = Spree::PurchaseOrder.all.order('created_at DESC')
+        @purchase_orders = Spree::PurchaseOrder.all.order('created_at DESC').page(params[:page])
       end
 
       def new

@@ -15,4 +15,5 @@
 <td><%= link_to "Edit", edit_admin_purchase_order_path(po.id) %></td>
 <td><%= link_to "Delete", admin_purchase_order_path(po.id), method: :delete, data: { confirm: 'Are you certain you want to delete this?' } %></td></tr>
 <% end %>
+<%= paginate @purchase_orders %>
 </table>
