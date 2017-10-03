@@ -2,7 +2,7 @@
 <% vendor = Spree::Vendor.find(info[0]) %>
 <!-- Create vendor form -->
 <%= form_for :dashboard do |f| %>
-<table><tr><th><%= vendor.name %><%= f.hidden_field :vendor_id, :value => vendor.id %><% total = 0 %></th></tr><tr><td>
+<table><tr><th><%= vendor.name %><%= f.hidden_field :vendor_id, :value => vendor.id %><% total = 0 %></th></tr><tr><td><%= vendor.note %></td></tr><tr><td>
 <table><tr><th>Sku</th><th>Days on Hand</th><th>Quantity</th><th>Cost</th><th>Total</th></tr>
 <% info[1].sort.each do |part, doh| %>
 <!-- Add parts to vendor -->
@@ -10,8 +10,16 @@
 <tr><td><%= pv.variant.sku %></td>
 <td><%= doh %></td>
 <td>
+<% dt = pv.delivery_time %>
+<% dt ||= 0 %>
+<% dohd = doh + dt %>
 <% qty = pv.variant.count_on_hand %>
-<% limit = (qty / doh) * @days_on_hand_minimum_days %>
+<% limit = (dohd == 0) ? 0 : (qty / dohd) * @days_on_hand_minimum_days %>
+<% if limit == 0 && qty < 0 %>
+<% limit = (qty.abs + 1) %>
+<% end %>
+<% pv.minimum ||= limit %>
+<% pv.multiples ||= 1 %>
 <% purchase = (((pv.minimum || limit) / pv.multiples || 1).ceil * pv.multiples || 1) %>
 <% while limit > purchase %>
  <% purchase += pv.multiples %>

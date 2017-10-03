@@ -2,6 +2,8 @@
    <%= Spree.t("purchase_order_dashboard") %>
 <% end %>
 
+Data from: <%= @date %>
+
 <% unless @vendorlist.empty? %>
 <%= render :partial => 'vendor' %>
 <% else %>
